@@ -1,4 +1,4 @@
 # Hakodate.swift #1 北海道描画チャレンジ
 
-<a href="https://gyazo.com/a895229b93f94d73d8e611eacbba212e"><img src="https://i.gyazo.com/a895229b93f94d73d8e611eacbba212e.gif" alt="Image from Gyazo" width="286"/></a>
+<a href="https://gyazo.com/ee05acf31a3869b74b5c7dc888976f84"><img src="https://i.gyazo.com/ee05acf31a3869b74b5c7dc888976f84.gif" alt="Image from Gyazo" width="300"/></a>
 
