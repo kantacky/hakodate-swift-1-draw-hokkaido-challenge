@@ -30,3 +30,7 @@ swift build --clean  # クリーンビルド
 3. **ラム肉** (`LambMeatView`) — 中央ドーム上にランダム散布
 
 カスタム `Shape` 準拠の `SlitShape`・`HandleShape` が、`Path` を使って鍋の放射状の溝と左右の取っ手を描画する。
+
+## Git運用
+
+- 変更はその都度コミットする。
