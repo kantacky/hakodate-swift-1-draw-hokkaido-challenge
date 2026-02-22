@@ -32,22 +32,25 @@ struct GenghisKhanPartyView: View {
                         .frame(width: potSize, height: potSize)
 
                     // --- レイヤー2: もやし（外側の溝中心に配置） ---
-                    ForEach(0..<sproutCount, id: \.self) { _ in
-                        BeanSproutView()
-                            // ランダムな角度で回転
-                            .rotationEffect(Angle(degrees: Double.random(in: 0...360)))
-                            // 鍋の中心から少し離れた位置（溝付近）にランダム配置
-                            .offset(
-                                x: CGFloat.random(in: -potSize/2.2 ... potSize/2.2),
-                                y: CGFloat.random(in: -potSize/2.2 ... potSize/2.2)
-                            )
-                            // 中心部には置かないように少しマスクをかける（簡易的な方法）
-                            .mask(
-                                Circle()
-                                    .stroke(lineWidth: potSize * 0.3)
-                                    .frame(width: potSize * 0.7, height: potSize * 0.7)
-                            )
+                    ZStack {
+                        ForEach(0..<sproutCount, id: \.self) { _ in
+                            BeanSproutView()
+                                // ランダムな角度で回転
+                                .rotationEffect(Angle(degrees: Double.random(in: 0...360)))
+                                // 鍋の中心から少し離れた位置（溝付近）にランダム配置
+                                .offset(
+                                    x: CGFloat.random(in: -potSize/2.2 ... potSize/2.2),
+                                    y: CGFloat.random(in: -potSize/2.2 ... potSize/2.2)
+                                )
+                        }
                     }
+                    .frame(width: potSize, height: potSize)
+                    // 鍋の外にはみ出さないようリング状マスクで制限（中心ドームも除外）
+                    .mask(
+                        Circle()
+                            .stroke(lineWidth: potSize * 0.3)
+                            .frame(width: potSize * 0.7, height: potSize * 0.7)
+                    )
 
                     // --- レイヤー3: ラム肉（中央のドーム中心に配置） ---
                     ForEach(0..<meatCount, id: \.self) { _ in
