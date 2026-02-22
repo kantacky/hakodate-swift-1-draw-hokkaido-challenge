@@ -57,7 +57,7 @@ struct GenghisKhanPartyView: View {
 
     // 具材の数
     let meatCount = 14
-    let sproutCount = 20
+    let sproutCount = 50
     let greenPepperCount = 6
     let onionCount = 5
     let pumpkinCount = 5

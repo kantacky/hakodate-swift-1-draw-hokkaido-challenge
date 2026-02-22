@@ -1,41 +1,66 @@
 import SwiftUI
 
-/// ピーマンの輪切り
+/// ピーマンの縦切り（短冊切り）
 struct GreenPepperView: View {
     var body: some View {
-        ZStack {
-            // 外側のリング
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            Color(red: 0.2, green: 0.55, blue: 0.1),
-                            Color(red: 0.1, green: 0.4, blue: 0.05),
-                        ],
-                        center: .center,
-                        startRadius: 4,
-                        endRadius: 14
-                    )
+        GreenPepperSliceShape()
+            .fill(
+                LinearGradient(
+                    colors: [
+                        Color(red: 0.25, green: 0.6, blue: 0.15),
+                        Color(red: 0.15, green: 0.45, blue: 0.08),
+                        Color(red: 0.2, green: 0.55, blue: 0.1),
+                    ],
+                    startPoint: .leading,
+                    endPoint: .trailing
                 )
-                .frame(width: 28, height: 28)
+            )
+            .overlay(
+                // 内側の筋
+                GreenPepperSliceShape()
+                    .stroke(
+                        Color(red: 0.12, green: 0.35, blue: 0.05).opacity(0.4),
+                        lineWidth: 0.5
+                    )
+            )
+            .frame(width: 12, height: 30)
+            .shadow(radius: 0.5)
+    }
+}
 
-            // 中の空洞
-            Circle()
-                .fill(Color.black.opacity(0.7))
-                .frame(width: 14, height: 14)
+/// ピーマン縦切りの形状：緩やかにカーブした短冊
+struct GreenPepperSliceShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let w = rect.width
+        let h = rect.height
 
-            // 種の粒
-            Circle()
-                .fill(Color(red: 0.85, green: 0.82, blue: 0.6))
-                .frame(width: 3, height: 3)
-                .offset(x: -2, y: -1)
+        // 左側の辺（やや内側にカーブ）
+        path.move(to: CGPoint(x: w * 0.15, y: h * 0.05))
+        path.addQuadCurve(
+            to: CGPoint(x: w * 0.1, y: h * 0.95),
+            control: CGPoint(x: -w * 0.05, y: h * 0.5)
+        )
 
-            Circle()
-                .fill(Color(red: 0.85, green: 0.82, blue: 0.6))
-                .frame(width: 2.5, height: 2.5)
-                .offset(x: 2, y: 2)
-        }
-        .shadow(radius: 0.5)
+        // 下端（丸み）
+        path.addQuadCurve(
+            to: CGPoint(x: w * 0.9, y: h * 0.95),
+            control: CGPoint(x: w * 0.5, y: h * 1.05)
+        )
+
+        // 右側の辺（やや外側にカーブ）
+        path.addQuadCurve(
+            to: CGPoint(x: w * 0.85, y: h * 0.05),
+            control: CGPoint(x: w * 1.05, y: h * 0.5)
+        )
+
+        // 上端（丸み）
+        path.addQuadCurve(
+            to: CGPoint(x: w * 0.15, y: h * 0.05),
+            control: CGPoint(x: w * 0.5, y: -h * 0.05)
+        )
+
+        return path
     }
 }
 

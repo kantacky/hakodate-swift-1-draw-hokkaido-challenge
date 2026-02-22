@@ -12,15 +12,15 @@ struct BeanSproutView: View {
     var body: some View {
         Capsule()
             .fill(Color(white: 0.96)) // ほぼ白
-            .frame(width: 4, height: 40)
+            .frame(width: 2.5, height: 20)
             // 根っこの部分を少し色付け
             .overlay(
                 Circle()
                     .fill(Color(white: 0.9))
-                    .frame(width: 4, height: 4)
-                    .offset(y: 18)
+                    .frame(width: 2.5, height: 2.5)
+                    .offset(y: 9)
             )
-            .shadow(radius: 0.5)
+            .shadow(radius: 0.3)
     }
 }
 
