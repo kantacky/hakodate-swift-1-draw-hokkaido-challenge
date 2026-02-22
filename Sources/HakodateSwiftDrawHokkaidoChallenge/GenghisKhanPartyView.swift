@@ -31,26 +31,22 @@ struct GenghisKhanPartyView: View {
                     GenghisKhanPotView()
                         .frame(width: potSize, height: potSize)
 
-                    // --- レイヤー2: もやし（外側の溝中心に配置） ---
+                    // --- レイヤー2: もやし（外側の溝、1つ目と2つ目の円の中間より内側に配置） ---
                     ZStack {
                         ForEach(0..<sproutCount, id: \.self) { _ in
+                            let angle = Double.random(in: 0 ..< 360)
+                            // 外枠(半径150)とドーム(半径120)の中間(135)より内側: 半径120〜135
+                            let distance = CGFloat.random(in: potSize * 0.40 ... potSize * 0.45)
                             BeanSproutView()
-                                // ランダムな角度で回転
                                 .rotationEffect(Angle(degrees: Double.random(in: 0...360)))
-                                // 鍋の中心から少し離れた位置（溝付近）にランダム配置
                                 .offset(
-                                    x: CGFloat.random(in: -potSize/2.2 ... potSize/2.2),
-                                    y: CGFloat.random(in: -potSize/2.2 ... potSize/2.2)
+                                    x: distance * CGFloat(cos(angle * .pi / 180)),
+                                    y: distance * CGFloat(sin(angle * .pi / 180))
                                 )
                         }
                     }
                     .frame(width: potSize, height: potSize)
-                    // 鍋の外にはみ出さないようリング状マスクで制限（中心ドームも除外）
-                    .mask(
-                        Circle()
-                            .stroke(lineWidth: potSize * 0.3)
-                            .frame(width: potSize * 0.7, height: potSize * 0.7)
-                    )
+                    .clipShape(Circle())
 
                     // --- レイヤー3: ラム肉（中央のドーム中心に配置） ---
                     ForEach(0..<meatCount, id: \.self) { _ in
