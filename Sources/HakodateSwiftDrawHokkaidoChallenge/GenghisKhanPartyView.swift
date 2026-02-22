@@ -21,7 +21,7 @@ private func generateMeatPlacements(count: Int, potSize: CGFloat) -> [MeatPlacem
     // 肉の楕円（45x28）を回転させた場合の外接円の半径
     let meatRadius: CGFloat = 23
     let minDistance: CGFloat = meatRadius * 2
-    let range = potSize / 4
+    let range = potSize / 5
 
     var placements: [MeatPlacement] = []
     var attempts = 0
@@ -86,7 +86,7 @@ struct GenghisKhanPartyView: View {
                         // もやし
                         ForEach(0..<sproutCount, id: \.self) { _ in
                             let angle = Double.random(in: 0 ..< 360)
-                            let distance = CGFloat.random(in: potSize * 0.40 ... potSize * 0.45)
+                            let distance = CGFloat.random(in: potSize * 0.34 ... potSize * 0.40)
                             BeanSproutView()
                                 .rotationEffect(Angle(degrees: Double.random(in: 0...360)))
                                 .offset(
@@ -98,7 +98,7 @@ struct GenghisKhanPartyView: View {
                         // ピーマン
                         ForEach(0..<greenPepperCount, id: \.self) { _ in
                             let angle = Double.random(in: 0 ..< 360)
-                            let distance = CGFloat.random(in: potSize * 0.40 ... potSize * 0.45)
+                            let distance = CGFloat.random(in: potSize * 0.34 ... potSize * 0.40)
                             GreenPepperView()
                                 .rotationEffect(Angle(degrees: Double.random(in: 0...360)))
                                 .offset(
@@ -110,7 +110,7 @@ struct GenghisKhanPartyView: View {
                         // 玉ねぎ
                         ForEach(0..<onionCount, id: \.self) { _ in
                             let angle = Double.random(in: 0 ..< 360)
-                            let distance = CGFloat.random(in: potSize * 0.40 ... potSize * 0.45)
+                            let distance = CGFloat.random(in: potSize * 0.34 ... potSize * 0.40)
                             OnionView()
                                 .rotationEffect(Angle(degrees: Double.random(in: 0...360)))
                                 .offset(
@@ -122,7 +122,7 @@ struct GenghisKhanPartyView: View {
                         // カボチャ
                         ForEach(0..<pumpkinCount, id: \.self) { _ in
                             let angle = Double.random(in: 0 ..< 360)
-                            let distance = CGFloat.random(in: potSize * 0.40 ... potSize * 0.45)
+                            let distance = CGFloat.random(in: potSize * 0.34 ... potSize * 0.40)
                             PumpkinView()
                                 .rotationEffect(Angle(degrees: Double.random(in: 0...360)))
                                 .offset(
