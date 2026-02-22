@@ -7,30 +7,87 @@
 
 import SwiftUI
 
-// ラム肉：少し赤みのある楕円形
+/// 焼き加減
+enum CookingLevel: CaseIterable {
+    case raw       // 生
+    case rare      // レア
+    case medium    // ミディアム
+    case wellDone  // ウェルダン
+
+    /// 肉のメインカラー（明るい側→暗い側）
+    var gradientColors: [Color] {
+        switch self {
+        case .raw:
+            [Color(red: 0.85, green: 0.25, blue: 0.25), Color(red: 0.95, green: 0.45, blue: 0.45)]
+        case .rare:
+            [Color(red: 0.75, green: 0.28, blue: 0.28), Color(red: 0.85, green: 0.42, blue: 0.38)]
+        case .medium:
+            [Color(red: 0.55, green: 0.25, blue: 0.2), Color(red: 0.7, green: 0.35, blue: 0.28)]
+        case .wellDone:
+            [Color(red: 0.35, green: 0.18, blue: 0.12), Color(red: 0.5, green: 0.25, blue: 0.15)]
+        }
+    }
+
+    /// 脂身の不透明度
+    var fatOpacity: Double {
+        switch self {
+        case .raw: 0.5
+        case .rare: 0.4
+        case .medium: 0.3
+        case .wellDone: 0.2
+        }
+    }
+
+    /// 焦げ目の不透明度
+    var charOpacity: Double {
+        switch self {
+        case .raw: 0.0
+        case .rare: 0.05
+        case .medium: 0.15
+        case .wellDone: 0.35
+        }
+    }
+}
+
+// ラム肉：焼き加減のバリエーション付き楕円形
 struct LambMeatView: View {
-    // 肉の色（赤身と少しの脂）
-    let meatGradient = LinearGradient(
-        colors: [Color(red: 0.8, green: 0.3, blue: 0.3), Color(red: 0.9, green: 0.5, blue: 0.5)],
-        startPoint: .topLeading,
-        endPoint: .bottomTrailing
-    )
+    var cookingLevel: CookingLevel = .rare
 
     var body: some View {
         Ellipse()
-            .fill(meatGradient)
+            .fill(
+                LinearGradient(
+                    colors: cookingLevel.gradientColors,
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
             .overlay(
-                // 少し脂身（白い部分）をアクセントに追加
+                // 脂身（白い部分）
                 Ellipse()
-                    .fill(Color.white.opacity(0.4))
+                    .fill(Color.white.opacity(cookingLevel.fatOpacity))
                     .frame(width: 15, height: 8)
                     .offset(x: 5, y: -4)
             )
+            .overlay(
+                // 焦げ目
+                Ellipse()
+                    .fill(Color.black.opacity(cookingLevel.charOpacity))
+                    .frame(width: 30, height: 14)
+                    .offset(x: -4, y: 6)
+                    .blur(radius: 2)
+            )
             .frame(width: 45, height: 28)
-            .shadow(radius: 1) // 少し浮かせて立体感を出す
+            .clipShape(Ellipse())
+            .shadow(radius: 1)
     }
 }
 
 #Preview {
-    LambMeatView()
+    HStack(spacing: 20) {
+        ForEach(CookingLevel.allCases, id: \.self) { level in
+            LambMeatView(cookingLevel: level)
+        }
+    }
+    .padding()
 }

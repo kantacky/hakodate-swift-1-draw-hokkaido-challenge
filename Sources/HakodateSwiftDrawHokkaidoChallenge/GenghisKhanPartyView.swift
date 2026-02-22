@@ -12,7 +12,7 @@ struct GenghisKhanPartyView: View {
     let potSize: CGFloat = 300
 
     // 具材の数
-    let meatCount = 8
+    let meatCount = 14
     let sproutCount = 20
     let greenPepperCount = 6
     let onionCount = 5
@@ -87,11 +87,11 @@ struct GenghisKhanPartyView: View {
                     .frame(width: potSize, height: potSize)
                     .clipShape(Circle())
 
-                    // --- レイヤー3: ラム肉（中央のドーム中心に配置） ---
+                    // --- レイヤー3: ラム肉（中央のドーム中心に配置、焼き加減ランダム） ---
                     ForEach(0..<meatCount, id: \.self) { _ in
-                        LambMeatView()
+                        let level = CookingLevel.allCases.randomElement()!
+                        LambMeatView(cookingLevel: level)
                             .rotationEffect(Angle(degrees: Double.random(in: 0...360)))
-                            // 鍋の中央付近に集中してランダム配置
                             .offset(
                                 x: CGFloat.random(in: -potSize/4 ... potSize/4),
                                 y: CGFloat.random(in: -potSize/4 ... potSize/4)
