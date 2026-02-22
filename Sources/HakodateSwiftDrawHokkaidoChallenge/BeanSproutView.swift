@@ -26,5 +26,4 @@ struct BeanSproutView: View {
 
 #Preview {
     BeanSproutView()
-        .preferredColorScheme(.dark)
 }

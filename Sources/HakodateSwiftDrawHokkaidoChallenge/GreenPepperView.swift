@@ -66,6 +66,4 @@ struct GreenPepperSliceShape: Shape {
 
 #Preview {
     GreenPepperView()
-        .padding()
-        .background(Color.gray)
 }

@@ -39,6 +39,4 @@ struct OnionView: View {
 
 #Preview {
     OnionView()
-        .padding()
-        .background(Color.gray)
 }

@@ -42,8 +42,10 @@ struct GenghisKhanPotView: View {
             HStack {
                 HandleShape()
                     .rotation(Angle(degrees: 180))
+                    .fill(Color.black)
                 Spacer().frame(width: 280)
                 HandleShape()
+                    .fill(Color.black)
             }
         }
         .frame(width: 300, height: 300)

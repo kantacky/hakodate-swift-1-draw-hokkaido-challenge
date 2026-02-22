@@ -67,9 +67,6 @@ struct GenghisKhanPartyView: View {
 
     var body: some View {
         ZStack {
-            // 背景色
-            Color(white: 0.95).edgesIgnoringSafeArea(.all)
-
             VStack {
                 Text("北海道名物 ジンギスカン")
                     .font(.title)
@@ -152,6 +149,10 @@ struct GenghisKhanPartyView: View {
                 meatPlacements = generateMeatPlacements(count: meatCount, potSize: potSize)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .ignoresSafeArea()
+        .background(.black.opacity(0.8))
+        .foregroundStyle(.white)
     }
 }
 

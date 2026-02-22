@@ -45,6 +45,4 @@ struct PumpkinView: View {
 
 #Preview {
     PumpkinView()
-        .padding()
-        .background(Color.gray)
 }
