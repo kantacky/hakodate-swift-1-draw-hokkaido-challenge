@@ -140,6 +140,10 @@ struct GenghisKhanPartyView: View {
                             .rotationEffect(Angle(degrees: meat.rotation))
                             .offset(x: meat.x, y: meat.y)
                     }
+
+                    // --- レイヤー4: 煙エフェクト ---
+                    SmokeView()
+                        .allowsHitTesting(false)
                 }
             }
         }
