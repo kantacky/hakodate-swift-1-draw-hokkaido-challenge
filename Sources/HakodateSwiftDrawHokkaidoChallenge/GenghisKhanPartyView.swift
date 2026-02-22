@@ -7,6 +7,50 @@
 
 import SwiftUI
 
+/// 肉の配置情報
+private struct MeatPlacement: Identifiable {
+    let id: Int
+    let x: CGFloat
+    let y: CGFloat
+    let rotation: Double
+    let cookingLevel: CookingLevel
+}
+
+/// 重ならない肉の配置を生成
+private func generateMeatPlacements(count: Int, potSize: CGFloat) -> [MeatPlacement] {
+    // 肉の楕円（45x28）を回転させた場合の外接円の半径
+    let meatRadius: CGFloat = 23
+    let minDistance: CGFloat = meatRadius * 2
+    let range = potSize / 4
+
+    var placements: [MeatPlacement] = []
+    var attempts = 0
+    let maxAttempts = 500
+
+    while placements.count < count && attempts < maxAttempts {
+        let x = CGFloat.random(in: -range...range)
+        let y = CGFloat.random(in: -range...range)
+
+        let overlaps = placements.contains { p in
+            let dx = p.x - x
+            let dy = p.y - y
+            return (dx * dx + dy * dy) < (minDistance * minDistance)
+        }
+
+        if !overlaps {
+            placements.append(MeatPlacement(
+                id: placements.count,
+                x: x,
+                y: y,
+                rotation: Double.random(in: 0...360),
+                cookingLevel: CookingLevel.allCases.randomElement()!
+            ))
+        }
+        attempts += 1
+    }
+    return placements
+}
+
 struct GenghisKhanPartyView: View {
     // 鍋のサイズ定義
     let potSize: CGFloat = 300
@@ -17,6 +61,9 @@ struct GenghisKhanPartyView: View {
     let greenPepperCount = 6
     let onionCount = 5
     let pumpkinCount = 5
+
+    // 肉の配置（重なり回避）
+    @State private var meatPlacements: [MeatPlacement] = []
 
     var body: some View {
         ZStack {
@@ -87,17 +134,18 @@ struct GenghisKhanPartyView: View {
                     .frame(width: potSize, height: potSize)
                     .clipShape(Circle())
 
-                    // --- レイヤー3: ラム肉（中央のドーム中心に配置、焼き加減ランダム） ---
-                    ForEach(0..<meatCount, id: \.self) { _ in
-                        let level = CookingLevel.allCases.randomElement()!
-                        LambMeatView(cookingLevel: level)
-                            .rotationEffect(Angle(degrees: Double.random(in: 0...360)))
-                            .offset(
-                                x: CGFloat.random(in: -potSize/4 ... potSize/4),
-                                y: CGFloat.random(in: -potSize/4 ... potSize/4)
-                            )
+                    // --- レイヤー3: ラム肉（中央のドーム中心に重ならず配置、焼き加減ランダム） ---
+                    ForEach(meatPlacements) { meat in
+                        LambMeatView(cookingLevel: meat.cookingLevel)
+                            .rotationEffect(Angle(degrees: meat.rotation))
+                            .offset(x: meat.x, y: meat.y)
                     }
                 }
+            }
+        }
+        .onAppear {
+            if meatPlacements.isEmpty {
+                meatPlacements = generateMeatPlacements(count: meatCount, potSize: potSize)
             }
         }
     }
